@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="New Recipe">
+    <meta name="author" content="Jason Rzeszutko">
+
+    <title>New Recipe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+
+</head>
+
+<body>
+
+    <div id='container'>
+        <div class='header'>
+
+            <div>
+                <h1>{{ request.session.user_first_name }}, Let's Get Started on a New Recipe!</h1>
+                <a href="/recipes">Back &#124;</a>
+                <a href="/logout">Log Out</a>
+            </div>
+        </div>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div id='main'>
+
+            <div class='section'>
+        
+                <form action="/addRecipe" method="POST">
+                    {% csrf_token %}    
+                    {% comment %} <label for="img">Select image:</label>
+                    <input type="file" id="img" name="img" accept="image/*"> {% endcomment %}
+                    <div class="form-group">
+                        <label for='new_recipe_title'>Title:</label>
+                        <input type="text" name='new_recipe_title' id='new_recipe_title' class='form-control'>
+                    </div>
+                    <div class="form-group">
+                        <label for='new_recipe_description'>Description:</label>
+                        <textarea name='new_recipe_description' id='new_recipe_description' class='form-control' rows="5"
+                            cols="20"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for='new_recipe_serving'>Servings (1 - 100):</label>
+                        <input type='number' min='1' max='100' name='new_recipe_serving' id='new_recipe_serving' class='form-control' value='1'>
+                    </div>
+                    <div class="form-group">
+                        <button class='btn btn-primary'>Save and Add Ingredients & Steps</button>
+                    </div>
+                </form>
+
+                </form>
+            </div>
+        </div> 
+
+    </div>
+</body>
+
+</html>

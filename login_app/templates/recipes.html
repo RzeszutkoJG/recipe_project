@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Recipes">
+    <meta name="author" content="Jason Rzeszutko">
+
+    <title>Recipes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+
+</head>
+
+<body>
+
+    <div id='container'>
+
+        <div class='mainimage'>
+            <img src="{% static 'images/tools.jpeg' %}" alt="main picture">
+            <img src="{% static 'images/butcher_block.jpeg' %}" alt="main picture">
+            <img src="{% static 'images/table_feast.jpeg' %}" alt="main picture">
+        </div>
+
+        <div class='header'>
+
+            <div>
+                <h1>Bon Appétit {{ request.session.user_first_name }}!</h1>
+                <a href="/newRecipe">New &#124;</a>
+                <a href="/favRecipes">Favorites &#124;</a>
+                <a href="/logout">Log Out</a>   
+            </div>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class='block'>
+            {% for recipe in all_recipes %}
+
+                <div class='boxes'>
+                    <div class='tempbox'>
+
+                        <div class='recipe'><a href="/viewRecipe/{{ recipe.id }}">{{ recipe.title }}</a></div>
+                        <p style="width: 380px; height: 160px" >{{ recipe.description }} </p>
+                        <p>By: {{ recipe.posted_by.first_name }} {{ recipe.posted_by.last_name }}</p>
+                        <p>Likes: {{ recipe.users_who_like.all.count }}</p>
+
+                        <div>
+                            <a href="/editRecipe/{{ recipe.id }}">Edit &#124;</a>
+                            {% if recipe_user in recipe.users_who_like.all %}
+                                <a href="/recipe/{{ recipe.id }}/unlike">Unlike &#124;</a>
+                                {% else %}
+                                <a href="/recipe/{{ recipe.id }}/like">Like &#124;</a>
+                            {% endif %} 
+                            {% if recipe_user in recipe.users_favorite.all %}
+                                <a href="/recipe/{{ recipe.id }}/removeFavorite">Remove Favorite</a>
+                                {% else %}
+                                <a href="/recipe/{{ recipe.id }}/addFavorite">Add Favorite</a>
+                            {% endif %} 
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}            
+
+        </div>
+    </div>
+</body>
+
+</html>

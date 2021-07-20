@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Our Recipes Login and Registration">
+    <meta name="author" content="Jason Rzeszutko">
+
+    <title>Login & Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+    <h1>Our Recipes - Login and Registration</h1>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div id='container'>
+        <div class='section'>
+            <form action="/register" method="POST">
+                {% csrf_token %}
+
+                <input type="hidden" name="formAction" value="register">
+
+                <div class="form-group">
+                    <label for='first_name'>First Name:</label>
+                    <input type="text" name='first_name' id='first_name' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for='last_name'>Last Name:</label>
+                    <input type="text" name='last_name' id='last_name' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for='email_add'>Email:</label>
+                    <input type="email" name='email_add' id='email_add' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for='birthday_dt'>Birthday:</label>
+                    <input type="date" name='birthday_dt' id='birthday_dt' class='form-control'>
+                </div>
+
+                <div class="form-group">
+                    <label for='pwd_one'>Password:</label>
+                    <input type="password" name='pwd_one' id='pwd_one' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for='pwd_two'>Confirm Password:</label>
+                    <input type="password" name='pwd_two' id='pwd_two' class='form-control'>
+                </div>
+
+                <div class="form-group">
+                    <button class='btn btn-primary'>Register</button>
+                </div>
+            </form>
+        </div>
+
+        <div class='section'>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+
+                <input type="hidden" name="formAction" value="login">
+
+                <div class="form-group">
+                    <label for='email_add'>Email:</label>
+                    <input type="email" name='email_add' id='email_add' class='form-control'>
+                </div>
+
+                <div class="form-group">
+                    <label for='pwd_one'>Password:</label>
+                    <input type="password" name='pwd_one' id='pwd_one' class='form-control'>
+                </div>
+
+                <div class="form-group">
+                    <button class='btn btn-primary'>Log In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

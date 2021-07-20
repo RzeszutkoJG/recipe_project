@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View Recipe, Ingredients, and Steps">
+    <meta name="author" content="Jason Rzeszutko">
+
+    <title>Recipe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+
+</head>
+
+<body>
+
+
+    <div id='container'>
+
+        <div class='mainimage'>
+            <img src="{% static 'images/cooking1.jpeg' %}" alt="cooking picture">
+            <img src="{% static 'images/cooking2.jpg' %}" alt="cooking picture">
+            <img src="{% static 'images/cooking3.jpg' %}" alt="cooking picture">
+        </div>
+
+        <div class='header'>
+            <div>
+                <h1>{{ request.session.user_first_name }}, let's get cooking {{recipe.title}}!</h1>
+                <a href="/recipes">Recipes &#124;</a>
+                <a href="/favRecipes">Favorites &#124;</a>
+                <a href="/logout">Log Out</a>
+            </div>
+        </div>
+
+        <div>
+            <h4>Description: {{recipe.description}}</h4>
+            <h4>Servings: {{recipe.serving}}</h4>
+        </div>
+
+        <div id='main'>
+
+            <div class='section'>
+
+                <h3>Ingredients</h3>
+
+                <div style="width: 900px; height: 200px; overflow: auto; border-style: solid">
+                    <ul style="line-height:90%">
+                    {% for ingredient in recipe_ingredients %}
+                        <li style="width: 800px"> {{ ingredient.content }} </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class='section'>
+
+                <h3>Steps</h3>
+
+                <div style="width: 900px; height: 200px; overflow: auto; border-style: solid">
+                    <ul style="line-height:90%">
+                    {% for step in recipe_steps %}                        
+                            <li style="width: 800px"> {{ step.content }} </li>                         
+                    {% endfor %}
+                    </ul>
+                </div>     
+            </div>
+        </div> 
+    </div>
+</body>
+
+</html>
